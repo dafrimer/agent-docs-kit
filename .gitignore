@@ -1,0 +1,19 @@
+# Documentation is NEVER gitignored in this repo.
+#
+# The audit behind this kit (docs/research/2026-09-11-workspace-doc-audit.md,
+# failure class INVISIBLE) found a repo whose entire .gitignore was 11 bytes:
+# a blank line and `plan.md` — the repo's only planning artifact, excluded from
+# git and therefore invisible to CI, teammates, worktrees and fresh clones.
+# Another hid `.local/` and `.claude/`, taking the learning log, the changelog
+# and both working plans with them.
+#
+# Rule 1 of docs/architecture/doc-classes.md: nothing durable is gitignored.
+# If a doc is worth writing, it is worth committing. Do not add `*.md`,
+# `plan.md`, `docs/`, `.local/` or any notes directory below.
+
+node_modules/
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini

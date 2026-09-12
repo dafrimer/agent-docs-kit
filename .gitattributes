@@ -1,0 +1,6 @@
+# The installer is bash; CRLF breaks it. Keep every text file LF in the repo.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.gif binary
