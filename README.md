@@ -90,6 +90,14 @@ Checks frontmatter presence, class validity, status legality per class, `verify:
 | `change-ledger` | model | Appends a dated changelog entry carrying author and an explicit Why. |
 | `docs-audit` | user | Sweeps a repo for the failure classes below and reports what to fix. |
 
+## Worked example
+
+[`dafrimer/homelab-ops#104`](https://github.com/dafrimer/homelab-ops/pull/104) is the reference retrofit: a real GitOps repository brought under this contract in one pass.
+
+It produced an `AGENTS.md` naming every top-level directory, an architecture overview verified against the actual bootstrap manifests, six ADRs reconstructing platform rationale that had never been written down, six stories, and a changelog entry — 17 files, docs only.
+
+Applying the kit also caught two factual errors the repository had carried for months: the README claimed the cluster synced manually when all five bootstrap root objects set `syncPolicy.automated` with prune and selfHeal, and the CI runbook said "Four workflows" directly above a six-row table. Both were found by writing a `verify:` command and running it, which is the mechanism rather than the luck.
+
 ## Why this exists
 
 From `docs/research/2026-09-11-workspace-doc-audit.md`, an audit of 22 top-level project folders:
