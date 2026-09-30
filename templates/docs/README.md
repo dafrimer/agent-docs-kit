@@ -4,7 +4,7 @@ class: living
 status: current
 owner: "@<handle>"
 updated: <YYYY-MM-DD>
-verify: "node scripts/lint-docs.mjs exits 0, and for d in docs/*/; do grep -q \"$d\" docs/README.md || echo MISSING $d; done"
+verify: "npx agent-docs-kit lint exits 0, and for d in docs/*/; do grep -q \"$d\" docs/README.md || echo MISSING $d; done"
 ---
 
 # Docs

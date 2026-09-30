@@ -12,6 +12,7 @@
 
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { relative, resolve, sep } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const SKIP_DIRS = new Set(["node_modules", ".git"]);
 
@@ -243,11 +244,12 @@ function lintFile(absPath, root, allowPlaceholders = false) {
   return { errors, warnings };
 }
 
-function main(argv) {
+export function main(argv) {
   if (argv.includes("--help") || argv.includes("-h")) {
     process.stdout.write(
       [
-        "Usage: node scripts/lint-docs.mjs [--allow-placeholders] [path ...]",
+        "Usage: agent-docs-kit lint [--allow-placeholders] [path ...]",
+        "       node scripts/lint-docs.mjs [--allow-placeholders] [path ...]",
         "",
         "Validates every .md under each path against the frontmatter contract",
         "in docs/architecture/doc-classes.md. Defaults to `docs`.",
@@ -301,4 +303,7 @@ function main(argv) {
   return allErrors.length || fatal ? 1 : 0;
 }
 
-process.exit(main(process.argv.slice(2)));
+// Run when invoked directly; stay silent when imported by bin/agent-docs-kit.mjs.
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  process.exit(main(process.argv.slice(2)));
+}

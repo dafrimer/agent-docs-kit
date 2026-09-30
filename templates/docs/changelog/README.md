@@ -4,7 +4,7 @@ class: living
 status: current
 owner: "@<handle>"
 updated: <YYYY-MM-DD>
-verify: "Every entry heading under docs/changelog/ is a real ISO date (no literal placeholder), and every entry has an Author line and a `### Why` — run scripts/lint-docs.mjs"
+verify: "Every entry heading under docs/changelog/ is a real ISO date (no literal placeholder), and every entry has an Author line and a `### Why` — run npx agent-docs-kit lint docs"
 ---
 
 # Changelog

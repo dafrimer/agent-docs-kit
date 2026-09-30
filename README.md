@@ -34,50 +34,60 @@ The full contract is `docs/architecture/doc-classes.md`.
 
 ```
 agent-docs-kit/
-├── install.sh / install.ps1   installers (equivalent semantics)
-├── scripts/lint-docs.mjs      frontmatter linter, zero dependencies
-├── docs/                      this kit's own docs (it dogfoods the model)
-├── templates/                 copied into your repo
-│   ├── AGENTS.md              the router an agent reads first
-│   ├── CONTEXT.md             glossary and domain model
+├── bin/agent-docs-kit.mjs    CLI: `init` scaffolds, `lint` checks
+├── scripts/lint-docs.mjs     frontmatter linter, zero dependencies
+├── docs/                     this kit's own docs (it dogfoods the model)
+├── templates/                copied into your repo by `init`
+│   ├── AGENTS.md             the router an agent reads first
+│   ├── CONTEXT.md            glossary and domain model
 │   └── docs/{architecture,decisions,stories,changelog}/
-└── skills/                    copied into your agent skill root
+└── skills/                   installed by the `skills` CLI, not by this one
 ```
 
-## Install
+## Install the skills
 
-Skills go to `~/.claude/skills` by default. Run a dry run first — it writes nothing.
-
-Bash (including Git Bash on Windows):
+Skills are consumed by the agent harness, not by this kit, so they install with the
+[`skills` CLI](https://github.com/antfu/skills-cli) — which knows the skill root of 30-odd
+harnesses, handles project versus global scope, and tracks updates:
 
 ```sh
-./install.sh --dry-run
-./install.sh
-./install.sh --skills-root ~/.claude/skills --skills-root ~/.config/opencode/skills
-./install.sh --docs /path/to/your/repo
+npx skills add dafrimer/agent-docs-kit --list     # see what is on offer
+npx skills add dafrimer/agent-docs-kit            # project scope: ./<agent>/skills/
+npx skills add dafrimer/agent-docs-kit -g         # global scope: ~/<agent>/skills/
+npx skills add dafrimer/agent-docs-kit --skill docs-kit --skill docs-audit
 ```
 
-PowerShell:
+Project scope is the right default for a repo you share: the skills land in `.claude/skills/`
+(or `.codex/skills/`, `.cursor/skills/`, …), get committed, and every teammate and every
+harness picks them up from the clone. Use `-g` for skills you want everywhere.
 
-```powershell
-./install.ps1 -DryRun
-./install.ps1
-./install.ps1 -SkillsRoot "$HOME\.claude\skills","$HOME\.config\opencode\skills"
-./install.ps1 -Docs C:\path\to\your\repo
+`npx skills check` and `npx skills update` keep installed copies current.
+
+## Scaffold the docs
+
+```sh
+npx agent-docs-kit init                  # into the current repo
+npx agent-docs-kit init /path/to/repo    # into another repo
+npx agent-docs-kit init --dry-run        # print every action, write nothing
+npx agent-docs-kit init --force          # overwrite files that already exist
 ```
 
-Existing skill directories and existing doc files are skipped and reported, never silently clobbered. Pass `--force` / `-Force` to replace them. Both installers print a created / skipped / would-create summary and exit non-zero if a copy fails.
-
-`--docs` / `-Docs` scaffolds `AGENTS.md`, `CONTEXT.md` and the `docs/` tree into a target repo. Use `--no-skills` / `-NoSkills` to scaffold docs without touching skill roots.
+`init` writes `AGENTS.md`, `CONTEXT.md` and the `docs/` tree. Existing files are reported and
+left alone unless `--force` is passed. The command prints a created / skipped / would-create
+summary and exits non-zero if a write fails.
 
 ## Lint
 
 ```sh
-node scripts/lint-docs.mjs            # defaults to docs/
-node scripts/lint-docs.mjs templates
+npx agent-docs-kit lint            # defaults to docs/
+npx agent-docs-kit lint templates  # placeholder-tolerant mode
+node scripts/lint-docs.mjs docs    # same thing, from a clone
 ```
 
 Checks frontmatter presence, class validity, status legality per class, `verify:` on living docs, `date:` on ledger docs, `updated` date format, and a real `owner`. Warns on placeholder residue (`TODO`, `TBD`, `_No entries yet._`, unfilled `<angle-brackets>`, literal `YYYY-MM-DD`). Exits 1 on any error; warnings alone do not fail. No dependencies — plain `node`.
+
+A freshly scaffolded tree lints dirty on purpose: the placeholder owners are errors until you
+fill them. That first failing run is the handoff from template to document.
 
 ## Skills
 
