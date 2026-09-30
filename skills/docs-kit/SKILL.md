@@ -36,30 +36,24 @@ The first four are model-invoked: they fire on their own when the work matches. 
 
 ## First-time setup
 
-Templates live in the `agent-docs-kit` checkout under `templates/`. If you do not know where that checkout is, ask before guessing.
-
 ### 1. Confirm the target
 
 Establish the repo root (`git rev-parse --show-toplevel`) and check what already exists: `AGENTS.md`, `CLAUDE.md`, `CONTEXT.md`, `README.md`, `docs/`, any `plan.md` or `TODO.md` at root.
 
 *Done when:* you can name every existing doc-shaped file and whether you are creating, merging, or leaving it alone. Never overwrite a file with content in it — merge, and say what you merged.
 
-### 2. Copy the skeleton
+### 2. Scaffold the skeleton
 
-From `templates/`, copy into the repo root:
-
-```
-AGENTS.md
-CONTEXT.md
-docs/README.md
-docs/architecture/
-docs/decisions/
-docs/stories/
-docs/stories/done/
-docs/changelog/
+```sh
+npx agent-docs-kit init            # from the repo root
+npx agent-docs-kit init --dry-run  # see what it would write first
 ```
 
-*Done when:* every copied file is present and no file still contains a template marker other than the `<angle-bracket>` slots you are about to fill.
+`init` writes `AGENTS.md`, `CONTEXT.md`, `docs/README.md`, and the `architecture/`, `decisions/`, `stories/` (with `done/`) and `changelog/` folders with their READMEs and templates. It skips any file that already exists and says so, so it is safe to run in a repo that has some of them.
+
+If npm is unavailable, copy the same tree by hand from an `agent-docs-kit` checkout's `templates/` directory. Ask where that checkout is rather than guessing.
+
+*Done when:* the command reports what it created and skipped, every skipped file is one you have decided to merge or leave alone, and no created file still contains a template marker other than the `<angle-bracket>` slots you are about to fill.
 
 ### 3. Fill `AGENTS.md` by enumerating, not guessing
 
@@ -111,9 +105,15 @@ updated: <YYYY-MM-DD>
 ---
 ```
 
-Plus `verify:` on living docs and `date:` on ledger docs.
+Plus `verify:` on living docs and `date:` on ledger docs. Check the whole tree in one command:
 
-*Done when:* no created file still contains an unfilled `<angle-bracket>` slot, a literal `YYYY-MM-DD`, or an empty `owner`. The audit found a changelog shipped with literal `YYYY-MM-DD` inside backup paths, and a learning log printing `_No entries yet._` above six real entries.
+```sh
+npx agent-docs-kit lint docs
+```
+
+A freshly scaffolded tree fails this on purpose — the placeholder owners are errors until you fill them. Exit 0 is the pass condition; warnings alone never fail.
+
+*Done when:* `npx agent-docs-kit lint docs` exits 0, and no created file still contains an unfilled `<angle-bracket>` slot, a literal `YYYY-MM-DD`, or an empty `owner`. The audit found a changelog shipped with literal `YYYY-MM-DD` inside backup paths, and a learning log printing `_No entries yet._` above six real entries.
 
 ### 8. Harness pointers
 

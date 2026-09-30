@@ -4,7 +4,7 @@ class: living
 status: current
 owner: "@<handle>"
 updated: <YYYY-MM-DD>
-verify: "Every file matching docs/decisions/[0-9][0-9][0-9][0-9]-*.md has a `## Alternatives considered` section and a non-empty `### Costs` — run scripts/lint-docs.mjs"
+verify: "Every file matching docs/decisions/[0-9][0-9][0-9][0-9]-*.md has a `## Alternatives considered` section and a non-empty `### Costs` — run npx agent-docs-kit lint docs"
 ---
 
 # Decisions

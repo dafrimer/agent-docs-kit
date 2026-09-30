@@ -4,6 +4,12 @@ Documentation templates and installable agent skills for repos that coding agent
 It fixes one problem: documents whose **update rule** was never stated, so nobody knew whether to edit them, append to them, or close them.
 Every template here traces to a specific failure found in an audit of 22 real project folders.
 
+```sh
+npx skills add dafrimer/agent-docs-kit   # the six skills, into your harness
+npx agent-docs-kit init                  # AGENTS.md, CONTEXT.md, docs/
+npx agent-docs-kit lint docs             # fails until you fill the placeholders
+```
+
 ## The model
 
 A doc's class is not its topic. It is what you are allowed to do to it.
@@ -34,50 +40,64 @@ The full contract is `docs/architecture/doc-classes.md`.
 
 ```
 agent-docs-kit/
-├── install.sh / install.ps1   installers (equivalent semantics)
-├── scripts/lint-docs.mjs      frontmatter linter, zero dependencies
-├── docs/                      this kit's own docs (it dogfoods the model)
-├── templates/                 copied into your repo
-│   ├── AGENTS.md              the router an agent reads first
-│   ├── CONTEXT.md             glossary and domain model
+├── bin/agent-docs-kit.mjs    CLI: `init` scaffolds, `lint` checks
+├── scripts/lint-docs.mjs     frontmatter linter, zero dependencies
+├── docs/                     this kit's own docs (it dogfoods the model)
+├── templates/                copied into your repo by `init`
+│   ├── AGENTS.md             the router an agent reads first
+│   ├── CONTEXT.md            glossary and domain model
 │   └── docs/{architecture,decisions,stories,changelog}/
-└── skills/                    copied into your agent skill root
+└── skills/                   installed by the `skills` CLI, not by this one
 ```
 
-## Install
+## Install the skills
 
-Skills go to `~/.claude/skills` by default. Run a dry run first — it writes nothing.
-
-Bash (including Git Bash on Windows):
+Skills are consumed by the agent harness, not by this kit, so they install with the
+[`skills` CLI](https://github.com/antfu/skills-cli) — which knows the skill root of 30-odd
+harnesses, handles project versus global scope, and tracks updates:
 
 ```sh
-./install.sh --dry-run
-./install.sh
-./install.sh --skills-root ~/.claude/skills --skills-root ~/.config/opencode/skills
-./install.sh --docs /path/to/your/repo
+npx skills add dafrimer/agent-docs-kit --list     # see what is on offer
+npx skills add dafrimer/agent-docs-kit            # project scope: ./<agent>/skills/
+npx skills add dafrimer/agent-docs-kit -g         # global scope: ~/<agent>/skills/
+npx skills add dafrimer/agent-docs-kit --skill docs-kit --skill docs-audit
 ```
 
-PowerShell:
+Project scope is the right default for a repo you share: the skills land in `.claude/skills/`
+(or `.codex/skills/`, `.cursor/skills/`, …), get committed, and every teammate and every
+harness picks them up from the clone. Use `-g` for skills you want everywhere.
 
-```powershell
-./install.ps1 -DryRun
-./install.ps1
-./install.ps1 -SkillsRoot "$HOME\.claude\skills","$HOME\.config\opencode\skills"
-./install.ps1 -Docs C:\path\to\your\repo
+`npx skills check` and `npx skills update` keep installed copies current.
+
+## Scaffold the docs
+
+> **Not published yet.** `npx agent-docs-kit` resolves to nothing until the first npm
+> release. Until then, clone this repo and run `node bin/agent-docs-kit.mjs` in place of
+> `npx agent-docs-kit`. The `npx skills add` command above needs no publish and works today.
+
+```sh
+npx agent-docs-kit init                  # into the current repo
+npx agent-docs-kit init /path/to/repo    # into another repo
+npx agent-docs-kit init --dry-run        # print every action, write nothing
+npx agent-docs-kit init --force          # overwrite files that already exist
 ```
 
-Existing skill directories and existing doc files are skipped and reported, never silently clobbered. Pass `--force` / `-Force` to replace them. Both installers print a created / skipped / would-create summary and exit non-zero if a copy fails.
-
-`--docs` / `-Docs` scaffolds `AGENTS.md`, `CONTEXT.md` and the `docs/` tree into a target repo. Use `--no-skills` / `-NoSkills` to scaffold docs without touching skill roots.
+`init` writes `AGENTS.md`, `CONTEXT.md` and the `docs/` tree. Existing files are reported and
+left alone unless `--force` is passed. The command prints a created / skipped / would-create
+summary and exits non-zero if a write fails.
 
 ## Lint
 
 ```sh
-node scripts/lint-docs.mjs            # defaults to docs/
-node scripts/lint-docs.mjs templates
+npx agent-docs-kit lint            # defaults to docs/
+npx agent-docs-kit lint templates  # placeholder-tolerant mode
+node scripts/lint-docs.mjs docs    # same thing, from a clone
 ```
 
 Checks frontmatter presence, class validity, status legality per class, `verify:` on living docs, `date:` on ledger docs, `updated` date format, and a real `owner`. Warns on placeholder residue (`TODO`, `TBD`, `_No entries yet._`, unfilled `<angle-brackets>`, literal `YYYY-MM-DD`). Exits 1 on any error; warnings alone do not fail. No dependencies — plain `node`.
+
+A freshly scaffolded tree lints dirty on purpose: the placeholder owners are errors until you
+fill them. That first failing run is the handoff from template to document.
 
 ## Skills
 
@@ -92,7 +112,7 @@ Checks frontmatter presence, class validity, status legality per class, `verify:
 
 ## Worked example
 
-[`dafrimer/homelab-ops#104`](https://github.com/dafrimer/homelab-ops/pull/104) is the reference retrofit: a real GitOps repository brought under this contract in one pass.
+`dafrimer/homelab-ops` is the reference retrofit: a real GitOps repository brought under this contract in one pass. The repository is private, so the numbers below are the evidence rather than a link.
 
 It produced an `AGENTS.md` naming every top-level directory, an architecture overview verified against the actual bootstrap manifests, six ADRs reconstructing platform rationale that had never been written down, six stories, and a changelog entry — 17 files, docs only.
 
@@ -105,7 +125,7 @@ From `docs/research/2026-09-11-workspace-doc-audit.md`, an audit of 22 top-level
 - **9%** had any agent instructions file (`CLAUDE.md` or `AGENTS.md`) — 2 of 22.
 - **0%** had any decision record. Across two years and 22 projects, not one architectural decision has a recorded rationale.
 
-The audit named twelve recurring failures. Each template answers one:
+The audit named twelve recurring failures. Ten have an artifact here:
 
 | Failure | What it looked like | Artifact that prevents it |
 | --- | --- | --- |
@@ -120,4 +140,10 @@ The audit named twelve recurring failures. Each template answers one:
 | DRIFT | Branch intent encoded only in directory names | Intent recorded in a story file |
 | UNDATED | `_No entries yet._` printed above 6 real entries | Entries require date, author, Why |
 
+The two without one are deliberate. **AD-HOC-WORK** — a cross-project backlog in an unversioned Obsidian vault, untouched for seven months — is a habit, and no file in a repository reaches it. **CONFIG-DRIFT** — five `.claude/settings.local.json` allow-lists using two incompatible matcher grammars — is harness configuration, not documentation; `docs/decisions/0005-contract-governs-docs-only.md` is why this kit does not reach across that line.
+
 The audit's one exemplar — a changelog that was dated, attributed, and carried explicit `### Why` sections — is the shape `templates/docs/changelog/` copies.
+
+## License
+
+MIT. See `LICENSE`.

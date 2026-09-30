@@ -1,4 +1,5 @@
-# The installer is bash; CRLF breaks it. Keep every text file LF in the repo.
+# bin/agent-docs-kit.mjs has a shebang; CRLF breaks it under POSIX shells.
+# Keep every text file LF in the repo.
 * text=auto eol=lf
 
 *.png binary

@@ -1,0 +1,41 @@
+{
+  "name": "agent-docs-kit",
+  "version": "0.1.0",
+  "description": "Documentation templates and a frontmatter linter for repos that coding agents work in. Skills install separately with `npx skills add dafrimer/agent-docs-kit`.",
+  "keywords": [
+    "agent",
+    "documentation",
+    "adr",
+    "decision-record",
+    "changelog",
+    "frontmatter",
+    "lint"
+  ],
+  "homepage": "https://github.com/dafrimer/agent-docs-kit#readme",
+  "bugs": "https://github.com/dafrimer/agent-docs-kit/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dafrimer/agent-docs-kit.git"
+  },
+  "license": "MIT",
+  "author": "@dafrimer",
+  "type": "module",
+  "bin": {
+    "agent-docs-kit": "bin/agent-docs-kit.mjs"
+  },
+  "exports": {
+    "./lint": "./scripts/lint-docs.mjs"
+  },
+  "files": [
+    "bin/",
+    "scripts/",
+    "templates/"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "lint": "node scripts/lint-docs.mjs docs",
+    "lint:templates": "node scripts/lint-docs.mjs templates"
+  }
+}

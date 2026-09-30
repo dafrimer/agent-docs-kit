@@ -3,8 +3,8 @@ id: doc-classes
 class: living
 status: current
 owner: "@dafrimer"
-updated: 2026-09-11
-verify: "Every file under docs/ has frontmatter whose `class` is one of living|ledger|flow — run scripts/lint-docs.mjs"
+updated: 2026-09-30
+verify: "Every file under docs/ has frontmatter whose `class` is one of living|ledger|flow — run node bin/agent-docs-kit.mjs lint docs"
 ---
 
 # Doc classes

@@ -3,8 +3,8 @@ id: changelog-readme
 class: living
 status: current
 owner: "@dafrimer"
-updated: 2026-09-11
-verify: "Every file matching docs/changelog/20*.md has an Author line and a '### Why' heading, and node scripts/lint-docs.mjs docs exits 0"
+updated: 2026-09-30
+verify: "Every file matching docs/changelog/20*.md has an Author line and a '### Why' heading, and node bin/agent-docs-kit.mjs lint docs exits 0"
 ---
 
 # Changelog
@@ -24,6 +24,7 @@ The other layout, a single appended `CHANGELOG.md`, is equally valid and is docu
 | Date | Entry | Author |
 | --- | --- | --- |
 | 2026-09-11 | [Initial kit](2026-09-11-initial-kit.md) | @dafrimer |
+| 2026-09-30 | [Distribution moves to the `skills` CLI and an npm `bin`](2026-09-30-package-and-skills-cli.md) | @dafrimer |
 
 ## Every entry carries date, author, and Why
 
