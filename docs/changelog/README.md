@@ -25,6 +25,7 @@ The other layout, a single appended `CHANGELOG.md`, is equally valid and is docu
 | --- | --- | --- |
 | 2026-09-11 | [Initial kit](2026-09-11-initial-kit.md) | @dafrimer |
 | 2026-09-30 | [Distribution moves to the `skills` CLI and an npm `bin`](2026-09-30-package-and-skills-cli.md) | @dafrimer |
+| 2026-09-30 | [CI enforces the frontmatter contract](2026-09-30-ci-enforces-contract.md) | @dafrimer |
 
 ## Every entry carries date, author, and Why
 
