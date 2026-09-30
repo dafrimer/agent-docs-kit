@@ -17,8 +17,11 @@ date: 2026-09-30
 - Added `bin/agent-docs-kit.mjs` with two commands. `init [target]` mirrors `templates/` into a repository, defaulting to the current directory, honouring `--force` and `--dry-run`, skipping existing files by name, and printing the same created / skipped / would-create summary the deleted installers printed. `lint [path ...]` runs the frontmatter contract.
 - Changed `scripts/lint-docs.mjs` to `export function main` and to self-execute only when `process.argv[1]` resolves to its own module URL. `agent-docs-kit lint` imports that function rather than spawning a child process, so there is one implementation and one exit-code path. Its usage banner now names both entry points.
 - Deleted `install.sh` and `install.ps1`, 12.8KB of two scripts maintained in lockstep.
-- Rewrote the README's Layout, Install and Lint sections around the two new channels.
+- Rewrote the README's Layout, Install and Lint sections around the two new channels, and fixed four defects a public reader hits: added a three-line quick start and an explicit "not published yet" note so `npx agent-docs-kit` does not silently 404; replaced the dead `homelab-ops#104` link, which pointed into a private repository, with the evidence itself; and corrected the failure-taxonomy count.
+- Added `LICENSE`. `package.json` declared MIT with no license file in the repository, which is a claim with nothing behind it on a public repository.
 - Recorded the reasoning as `docs/decisions/0006-skills-cli-and-npm-not-plugin.md`, and added its row to `docs/decisions/README.md`.
+
+**The README carried its own STALE defect.** It said "The audit named twelve recurring failures. Each template answers one" directly above a ten-row table — the identical shape the kit's own worked example calls out, a CI runbook reading "Four workflows" above a six-row table. The audit does name twelve classes (`docs/research/2026-09-11-workspace-doc-audit.md`, §1–§12); two of them, AD-HOC-WORK and CONFIG-DRIFT, have no artifact here and never did. The text now says ten, and a following paragraph names the two the kit deliberately does not address and why. Padding the table to twelve would have been the wrong fix: CONFIG-DRIFT is harness configuration, which `docs/decisions/0005-contract-governs-docs-only.md` puts outside this contract.
 
 ### Why
 

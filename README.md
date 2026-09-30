@@ -4,6 +4,12 @@ Documentation templates and installable agent skills for repos that coding agent
 It fixes one problem: documents whose **update rule** was never stated, so nobody knew whether to edit them, append to them, or close them.
 Every template here traces to a specific failure found in an audit of 22 real project folders.
 
+```sh
+npx skills add dafrimer/agent-docs-kit   # the six skills, into your harness
+npx agent-docs-kit init                  # AGENTS.md, CONTEXT.md, docs/
+npx agent-docs-kit lint docs             # fails until you fill the placeholders
+```
+
 ## The model
 
 A doc's class is not its topic. It is what you are allowed to do to it.
@@ -65,6 +71,10 @@ harness picks them up from the clone. Use `-g` for skills you want everywhere.
 
 ## Scaffold the docs
 
+> **Not published yet.** `npx agent-docs-kit` resolves to nothing until the first npm
+> release. Until then, clone this repo and run `node bin/agent-docs-kit.mjs` in place of
+> `npx agent-docs-kit`. The `npx skills add` command above needs no publish and works today.
+
 ```sh
 npx agent-docs-kit init                  # into the current repo
 npx agent-docs-kit init /path/to/repo    # into another repo
@@ -102,7 +112,7 @@ fill them. That first failing run is the handoff from template to document.
 
 ## Worked example
 
-[`dafrimer/homelab-ops#104`](https://github.com/dafrimer/homelab-ops/pull/104) is the reference retrofit: a real GitOps repository brought under this contract in one pass.
+`dafrimer/homelab-ops` is the reference retrofit: a real GitOps repository brought under this contract in one pass. The repository is private, so the numbers below are the evidence rather than a link.
 
 It produced an `AGENTS.md` naming every top-level directory, an architecture overview verified against the actual bootstrap manifests, six ADRs reconstructing platform rationale that had never been written down, six stories, and a changelog entry — 17 files, docs only.
 
@@ -115,7 +125,7 @@ From `docs/research/2026-09-11-workspace-doc-audit.md`, an audit of 22 top-level
 - **9%** had any agent instructions file (`CLAUDE.md` or `AGENTS.md`) — 2 of 22.
 - **0%** had any decision record. Across two years and 22 projects, not one architectural decision has a recorded rationale.
 
-The audit named twelve recurring failures. Each template answers one:
+The audit named twelve recurring failures. Ten have an artifact here:
 
 | Failure | What it looked like | Artifact that prevents it |
 | --- | --- | --- |
@@ -130,4 +140,10 @@ The audit named twelve recurring failures. Each template answers one:
 | DRIFT | Branch intent encoded only in directory names | Intent recorded in a story file |
 | UNDATED | `_No entries yet._` printed above 6 real entries | Entries require date, author, Why |
 
+The two without one are deliberate. **AD-HOC-WORK** — a cross-project backlog in an unversioned Obsidian vault, untouched for seven months — is a habit, and no file in a repository reaches it. **CONFIG-DRIFT** — five `.claude/settings.local.json` allow-lists using two incompatible matcher grammars — is harness configuration, not documentation; `docs/decisions/0005-contract-governs-docs-only.md` is why this kit does not reach across that line.
+
 The audit's one exemplar — a changelog that was dated, attributed, and carried explicit `### Why` sections — is the shape `templates/docs/changelog/` copies.
+
+## License
+
+MIT. See `LICENSE`.
