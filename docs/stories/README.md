@@ -3,8 +3,8 @@ id: stories-readme
 class: living
 status: current
 owner: "@dafrimer"
-updated: 2026-09-11
-verify: "grep -l 'status: done' docs/stories/*.md returns nothing and grep -l 'status: dropped' docs/stories/*.md returns nothing — closed stories live in docs/stories/done/"
+updated: 2026-09-30
+verify: "grep -l '^status: \\(done\\|dropped\\)$' docs/stories/*.md returns nothing — closed stories live in docs/stories/done/. The pattern is anchored because an unanchored 'status: done' matches this file's own verify line."
 ---
 
 # Stories
@@ -17,15 +17,16 @@ Start a story by copying `templates/docs/stories/TEMPLATE.md` into this folder u
 
 ## Current stories
 
-| Story | Status | Owner |
-| --- | --- | --- |
-| [ci-run-lint-docs](ci-run-lint-docs.md) | backlog | @dafrimer |
+None. Both stories written for this kit have closed, and both live in [`done/`](done/):
 
-Archived stories live in [`done/`](done/). `publish-kit-to-github` completed on 2026-09-11 and moved there.
+| Story | Closed | Outcome |
+| --- | --- | --- |
+| [publish-kit-to-github](done/publish-kit-to-github.md) | 2026-09-11 | done |
+| [ci-run-lint-docs](done/ci-run-lint-docs.md) | 2026-09-30 | done |
+
+An empty table here is the correct state, not a gap. Stories are opened when real work starts; pre-writing them to make the folder look busy is the ORPHAN-PLAN failure this folder exists to prevent.
 
 Order is by urgency, not by date. `backlog` means real work that is not yet started.
-
-`ci-run-lint-docs` was blocked on `publish-kit-to-github`; that dependency is now satisfied. It is recorded in the story's `## Notes` rather than in this table, so it has exactly one home.
 
 ## States
 
