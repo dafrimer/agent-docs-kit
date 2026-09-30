@@ -1,0 +1,21 @@
+name: docs
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# The linter has no dependencies by design (scripts/lint-docs.mjs:5), so this
+# job installs none. A Node runtime is the entire setup. If this workflow ever
+# grows an `npm ci`, the constraint has been broken somewhere upstream.
+jobs:
+  lint:
+    name: lint docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Validate the frontmatter contract
+        run: node bin/agent-docs-kit.mjs lint docs
