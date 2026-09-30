@@ -2,7 +2,6 @@
 id: decisions-readme
 class: living
 status: current
-owner: "@dafrimer"
 updated: 2026-09-30
 verify: "node bin/agent-docs-kit.mjs lint docs exits 0, and the Index table below has one row per docs/decisions/[0-9][0-9][0-9][0-9]-*.md file"
 ---
