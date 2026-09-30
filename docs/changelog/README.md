@@ -39,3 +39,5 @@ Never paste a credential, a token, or an account identifier into an entry. A led
 ## Entries are never edited, only superseded
 
 An entry is a claim about a moment; editing it destroys the record of what was believed then. Got it wrong? Write a new entry, dated today, saying what the earlier one got wrong. Set the old entry's `status:` to `superseded` with `superseded_by:`, or to `reverted` if it was rolled back. Frontmatter status is the only permitted edit to a shipped entry.
+
+_No entries yet._
