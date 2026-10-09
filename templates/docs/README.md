@@ -9,7 +9,7 @@ verify: "npx agent-docs-kit lint exits 0, and for d in docs/*/; do grep -q \"$d\
 
 # Docs
 
-Canonical documentation for this repo. Every other harness path (`CLAUDE.md`, `.github/copilot/`) holds a one-line pointer here, never a copy.
+Canonical documentation for this repo. Each harness-specific integration keeps only a short pointer to `AGENTS.md`, which routes here, rather than copying documentation.
 
 Each folder below is defined by its **class** — its update rule — not by its topic. Topic tells you what a doc is about; class tells you what you are allowed to do to it, and that is the property that decays when it is left unstated.
 
@@ -54,7 +54,7 @@ updated: <YYYY-MM-DD>
 
 1. **Nothing durable is gitignored.** Two audited repos hid their only real planning doc behind `.gitignore`; both rotted unreviewed.
 2. **Docs point at config; they never copy it.** Reference `file:line`. The audit found one manifest stored in three places and a duplicate metrics table that already disagreed with its source at different precision.
-3. **One canonical path, thin per-harness pointers.** The best architecture doc in the audit lived under `.github/copilot/skills/`, a path Claude Code and OMP never load.
+3. **One canonical path, thin per-harness pointers.** The best architecture doc in the audit lived under a harness-specific skills path that the tools in use never load.
 
 ## Adding a doc
 

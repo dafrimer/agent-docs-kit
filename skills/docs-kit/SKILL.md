@@ -63,13 +63,17 @@ Read the actual tree — `git ls-files | cut -d/ -f1 | sort -u` for tracked top-
 
 ### 4. Fill the architecture overview
 
-`docs/architecture/overview.md` is `living`, so it needs a `verify:` that is a real command. Capture:
+The root-directory map in `AGENTS.md` is orientation only; it does not replace the nested architectural inventory in `docs/architecture/overview.md`. Follow the `repo-architecture` skill for full discovery across compute units, shared components, entries/triggers, and delivery definitions, including units nested under existing directories.
+
+Discover those units from the repository's source and configuration, not from the current docs. Compare the discovered identities and execution bindings with the overview in both directions, and record explicit discovery scope and exclusions. The overview is `living`, so its `verify:` must be a repository-specific check that fails for missing or removed units, changed bindings, and parsing/discovery errors. Run it and prove it catches representative drift, such as a newly added nested unit; merely checking that the command exits green on the unchanged tree is not enough.
+
+Capture in the overview:
 
 - Entry points — what actually starts, and from which file.
 - The contract surface — the file where the shared types / API schema / manifest set lives. Cite the path. Do not restate its contents.
 - Where configuration lives, by path and line. Never paste config values into the doc.
 
-*Done when:* `verify:` runs green, and every factual claim in the doc names the file it came from.
+*Done when:* the root map and full architectural inventory are both reconciled against the tree, `verify:` passes and has demonstrated sensitivity to drift, and every factual claim names its source.
 
 ### 5. Fill `CONTEXT.md`
 

@@ -25,12 +25,12 @@ verify: "for d in */; do grep -q \"$d\" AGENTS.md || echo MISSING $d; done"
 | `<dir>/` | <one line> |
 | `docs/` | Canonical documentation. Start at `docs/README.md`. |
 
-Every top-level directory appears above. An omitted directory is a bug — the audited `homelab-ops/README.md` omitted `smarthome/` entirely.
+Every top-level directory appears above. This is a root-level orientation map, not a complete inventory of nested services, components, entry points, or delivery definitions; keep that inventory in `docs/architecture/overview.md`. An omitted root directory is a bug — the audited `homelab-ops/README.md` omitted `smarthome/` entirely.
 
 ## Docs
 
 - `CONTEXT.md` — glossary. Read when a term here is ambiguous. Definitions only.
-- `docs/architecture/overview.md` — repo map, entry points, data flow.
+- `docs/architecture/overview.md` — complete architectural inventory, entry points, and data flow.
 - `docs/decisions/` — why a choice was made. Read before changing or arguing with one.
 - `docs/stories/` — current work state. Branch names are not a work tracker.
 - `docs/changelog/` — what changed, when, by whom, and why.
@@ -56,4 +56,4 @@ Canonical docs live in `docs/`. Every other harness path gets a one-line pointer
 - `CLAUDE.md` → `See AGENTS.md.`
 - `.github/copilot/README.md` → `See ../../AGENTS.md.`
 
-The audit found a repo's best architecture doc stranded at `.github/copilot/skills/<name>/SKILL.md`, a path Claude Code and OMP never load. A copy on a second path becomes a second truth; a pointer cannot.
+For each additional harness-specific path in use, add a short pointer to `AGENTS.md` rather than copying its contents. The audit found a repo's best architecture doc stranded under a harness-specific skills path that the tools in use never load. A copy on a second path becomes a second truth; a pointer cannot.
