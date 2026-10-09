@@ -8,8 +8,8 @@ date: <YYYY-MM-DD>
 ---
 
 <!--
-Provenance: this shape is copied from `HomeLab/homeassistant-changelog.md`, the single
-positive exemplar found in the 22-folder audit (docs/research/2026-09-11-workspace-doc-audit.md,
+Provenance: this shape follows the single positive exemplar found in the 22-folder audit
+(docs/research/2026-09-11-workspace-doc-audit.md,
 "The one exemplar"). It was the best artifact in the workspace for exactly three reasons —
 it was dated, it was attributed, and it carried explicit `### Why` sections. Those three
 properties are what this template preserves; everything else here is scaffolding around them.

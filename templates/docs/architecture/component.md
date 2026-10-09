@@ -36,7 +36,7 @@ Rules that must hold for this component to be correct. Each one names where it i
 | --- | --- | --- |
 | `<rule that must always be true>` | `<the consequence if it is violated>` | `<file>:<line>` or **unenforced — convention only** |
 
-An invariant recorded only in a comment or a docstring is one refactor away from gone. The audit behind this template found `seattle-world` stating the rule *"Do not loosen a constraint to resolve an installation failure"* while pinning two mutually incompatible torch stacks, with the reason recorded nowhere — an agent cannot honour a rule whose reason is missing, and the safest-looking fix is precisely the one the rule forbids. It also found `infiniteHorizon/CLAUDE.md` naming `/Content/AI_Generated` where the code uses `/Game/AI_Generated`: a stated invariant that had already silently stopped matching the code. If an invariant is load-bearing, it belongs in this table with an enforcement site, and the `verify:` command above should fail when it is broken.
+An invariant recorded only in a comment or a docstring is one refactor away from gone. The audit behind this template found a project stating a dependency constraint while pinning mutually incompatible versions, with the reason recorded nowhere — an agent cannot honour a rule whose reason is missing, and the safest-looking fix is precisely the one the rule forbids. It also found an architecture doc naming a content path different from the one used by code: a stated invariant that had already silently stopped matching reality. If an invariant is load-bearing, it belongs in this table with an enforcement site, and the `verify:` command above should fail when it is broken.
 
 ## Dependencies
 
