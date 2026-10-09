@@ -9,7 +9,7 @@ verify: "npx agent-docs-kit lint exits 0, and for d in docs/*/; do grep -q \"$d\
 
 # Docs
 
-Canonical documentation for this repo. Every other harness-specific file or directory holds a one-line pointer here, never a copy.
+Canonical documentation for this repo. Each harness-specific integration keeps only a short pointer to `AGENTS.md`, which routes here, rather than copying documentation.
 
 Each folder below is defined by its **class** — its update rule — not by its topic. Topic tells you what a doc is about; class tells you what you are allowed to do to it, and that is the property that decays when it is left unstated.
 
